@@ -1,0 +1,61 @@
+<h1 class="titulo">
+    Hyper <br> El link entre tus libros.
+</h1>
+
+<div>
+    <h6 class="home-title">
+        <span> Una red para archivar,</span>
+        <span>intercambiar y conocer libros.</span>
+    </h6>
+</div>
+
+
+<div class="nosotros" data-aos="fade-up">
+    <h2 class="padding">¿Qué es Hyper?</h2>
+    <h6>
+        Hyper es una plataforma donde se juntan los lectores. Ante la perspectiva de una biblioteca personal y estática, decidimos crear una red de lectores que 
+        les permita generar un flujo de lectura dinámico, a través del intercambio de libros. Solo debes registrarte, seleccionar los libros que posees y estas dispuesto a intercambiar y
+        definir tus preferencias y ya puedes buscar el libro que quieras.
+    </h6>
+    <div class="pasos padding">
+        <i class="large material-icons padding">account_box</i>
+        <i class="large material-icons padding">library_books</i>
+        <i class="large material-icons padding">check_circle</i>
+    </div>
+</div>
+
+<input type="text" id="titleId" placeholder="Usuario...">
+<button id="search" onclick="getBooks();">Buscar</button>
+
+<div id="titleList"></div>
+
+
+
+<script>
+    //petición AJAX  a api de Google
+
+    function getBooks() {
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onload = function() {
+        let arrayOriginal = JSON.parse(xhr.responseText).items;
+
+        let arrayResumido = arrayOriginal.map(elemento => {
+            return {
+                titulo: elemento.volumeInfo.title,
+                autores: (elemento.volumeInfo.authors)? elemento.volumeInfo.authors.join(", ") : "<NO INFORMADO>",
+                editorial: elemento.volumeInfo.publisher,
+                lanzamiento: elemento.volumeInfo.publishedDate
+            }
+        });
+    }
+
+
+    xhr.open("GET", "https://www.googleapis.com/books/v1/volumes?q=marx", true);
+    xhr.send();
+
+
+}
+
+</script>
