@@ -24,38 +24,10 @@
     </div>
 </div>
 
-<input type="text" id="titleId" placeholder="Usuario...">
-<button id="search" onclick="getBooks();">Buscar</button>
+
+<button onclick= 'getBooks()'>Buscar</button>
 
 <div id="titleList"></div>
 
 
 
-<script>
-    //petición AJAX  a api de Google
-
-    function getBooks() {
-
-    let xhr = new XMLHttpRequest();
-
-    xhr.onload = function() {
-        let arrayOriginal = JSON.parse(xhr.responseText).items;
-
-        let arrayResumido = arrayOriginal.map(elemento => {
-            return {
-                titulo: elemento.volumeInfo.title,
-                autores: (elemento.volumeInfo.authors)? elemento.volumeInfo.authors.join(", ") : "<NO INFORMADO>",
-                editorial: elemento.volumeInfo.publisher,
-                lanzamiento: elemento.volumeInfo.publishedDate
-            }
-        });
-    }
-
-
-    xhr.open("GET", "https://www.googleapis.com/books/v1/volumes?q=marx", true);
-    xhr.send();
-
-
-}
-
-</script>
