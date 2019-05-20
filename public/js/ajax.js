@@ -1,22 +1,28 @@
 function getBooks() {
-    let xhr = new XMLHttpRequest();
+  let titleId = document.getElementById('titleId').value
+  
+  let xhr = new XMLHttpRequest();
+    
     xhr.onload = function () {
-      let arrayOriginal = JSON.parse(xhr.responseText).items;
-      const bookDiv = document.createElement('div');
       
-      let arrayResumido = arrayOriginal.map(elemento=>{
-        return {
-          titulo: elemento.volumeInfo.title,
-          autores: (elemento.volumeInfo.authors) ? elemento.volumeInfo.authors.join(', ')  : '<NO INFORMADO>',
-          editorial: elemento.volumeInfo.publisher,
-          lanzamiento: elemento.volumeInfo.publishedDate
-        }
+      
+
+      let arrayOriginal = JSON.parse(xhr.responseText).items;
+      
+        let arrayResumido = arrayOriginal.map(elemento=>{
+          return {
+            titulo: elemento.volumeInfo.title,
+            autores: (elemento.volumeInfo.authors) ? elemento.volumeInfo.authors.join(', ')  : '<NO INFORMADO>',
+            editorial: elemento.volumeInfo.publisher,
+            lanzamiento: elemento.volumeInfo.publishedDate
+          }
+       });
+       arrayResumido.forEach(object => {
+        document.getElementById('titleList').innerHTML = JSON.stringify(arrayResumido, null, 4)
       });
-      const titleDiv = document.createElement('div').appendChild(document.createTextNode(arrayResumido));
-      bookDiv.appendChild(titleDiv);
       console.log(arrayResumido)
     }
-    xhr.open('GET', 'https://www.googleapis.com/books/v1/volumes?q=marx');
+    xhr.open('GET', `https://www.googleapis.com/books/v1/volumes?q=${titleId}`);
     xhr.send('');
   }
   

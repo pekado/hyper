@@ -179,4 +179,8 @@ h1 { margin: none;}
       opacity: 1;
     }
   }
+
+  .temas { display: block; justify-content: space-around;}
+
+  .boton { margin-left: 45%;}
   
