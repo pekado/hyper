@@ -1,4 +1,5 @@
 function getBooks() {
+  
   let titleId = document.getElementById('titleId').value
   
   let xhr = new XMLHttpRequest();
@@ -17,9 +18,14 @@ function getBooks() {
             lanzamiento: elemento.volumeInfo.publishedDate
           }
        });
-       arrayResumido.forEach(object => {
-        document.getElementById('titleList').innerHTML = JSON.stringify(arrayResumido, null, 4)
-      });
+       
+        arrayResumido.forEach(libro => {
+
+          let filaLibro = `<ul><li>${libro.titulo}</li><li>${libro.autores}</li><li>${libro.editorial}</li><li>${libro.lanzamiento}</ul>` // con más datos, claro...	
+          document.getElementById('titleList').innerHTML += filaLibro; // Concateno la fila en el innerHTML de la tabla (Esto se puede hacer de mil maneras distintas)
+          
+        });
+      
       console.log(arrayResumido)
     }
     xhr.open('GET', `https://www.googleapis.com/books/v1/volumes?q=${titleId}`);
