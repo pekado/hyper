@@ -6,6 +6,7 @@ function getBooks() {
     
     xhr.onload = function () {
       
+      document.getElementById('titleList').innerHTML = '';
       
 
       let arrayOriginal = JSON.parse(xhr.responseText).items;
@@ -21,9 +22,8 @@ function getBooks() {
        
         arrayResumido.forEach(libro => {
 
-          let filaLibro = `<ul><li>${libro.titulo}</li><li>${libro.autores}</li><li>${libro.editorial}</li><li>${libro.lanzamiento}</ul>` // con más datos, claro...	
+          let filaLibro = `<ul><li>${libro.titulo}</li><li>${libro.autores}</li><li>${libro.editorial}</li><li>${libro.lanzamiento}</ul><hr>` // con más datos, claro...	
           document.getElementById('titleList').innerHTML += filaLibro; // Concateno la fila en el innerHTML de la tabla (Esto se puede hacer de mil maneras distintas)
-          
         });
       
       console.log(arrayResumido)

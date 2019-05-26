@@ -9,9 +9,9 @@ const login = require('./login');
 const MongoClient = require('mongodb').MongoClient
 
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
-const url = 'mongodb://localhost:27017';
-const dbName = 'Hyper';
-const collectionName = 'Usuarios';
+const url = mongodb.MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true });
+const db = 'Hyper';
+const collection = 'Usuarios';
 
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
@@ -22,9 +22,10 @@ client.connect(function (err, client) {
     // Acá va todo el código para interactuar con MongoDB
   console.log("Conectados a MongoDB");
   
-  // Luego de usar la conexión podemos cerrarla
-  
-});
+    
+  });
+
+
 
 
 
@@ -52,15 +53,28 @@ app.set('views', path.join(__dirname, '../views'));
 //Ruta del home como vista inicial
 app.get('/', (req,res)=> {
     res.render('home', {
-        title:'mi app hbs',
+        title:'Hyper - Un hiperbvínculo en tu biblioteca',
         cssHome: 'css/style.css',
     });
 });
 
-//Ruta del boton home al index
+
+//Ruta a Index
+app.get('/index', (req,res) =>{
+  res.render('index',{
+    title: 'Hyper',
+  })
+  url.then(function(db) {
+    db.collection('Usuarios').find({}).toArray().then(function(feedbacks) {
+        res.status(200).json(feedbacks);
+    });
+});
+})
+
+//Ruta del boton home al home
 app.get('/home', (req,res)=> {
     res.render('home', {
-        title:'mi app hbs',
+        title:'Hyper - Un hiperbvínculo en tu biblioteca',
         cssHome: 'css/style.css',
     });
 });
@@ -107,7 +121,15 @@ app.post('/login', (req, res) => {
     }
     
   });
-  
+
+  //post de libro a db
+  app.post('/index', function (req, res) {
+    url.then(function(db) {
+        delete req.body._id; // for safety reasons
+        db.collection('Usuarios').insertOne(req.body);
+    });    
+    res.send('Data received:\n' + JSON.stringify(req.body));
+});
 
 
 //Servidor en puerto

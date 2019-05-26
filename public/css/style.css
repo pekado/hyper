@@ -1,12 +1,11 @@
-@cssanimista;
 
 
-.entrance{
+body{
 	width: 100wh;
-	height: 90vh;
+	height: 100%;
 	color: #fff;
 	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-	background-size: 400% 400%;
+	background-size: 400% 3000%;
 	-webkit-animation: Gradient 15s ease infinite;
 	-moz-animation: Gradient 15s ease infinite;
     animation: Gradient 15s ease infinite;
@@ -99,7 +98,7 @@ h1{
     right: 0;
     width: 100%;
     height: 100%;
-    background: var(--bg-cololinear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB););
+    background: var(--bg-cololinear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB));
     animation: a-ltr-before 2s cubic-bezier(.77,0,.18,1) forwards;
     transform: translateX(0);
     margin-left: 80%;
@@ -125,6 +124,15 @@ h1{
     100% {transform: translateX(200%)}
 }
 
+@-webkit-keyframes text {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .titulo {
     animation: text 2s;
     -webkit-animation: text 2s;
@@ -137,14 +145,6 @@ h1{
     left: 0;
     right: 0;
    
-}
-@-webkit-keyframes text {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
 }
 
 .nosotros {text-align: center; padding-top: 30% ; margin-left: 20%; margin-right: 20%;}
@@ -185,4 +185,16 @@ h1 { margin: none;}
   .temas { display: block; justify-content: space-around;}
 
   .boton { margin-left: 45%;}
+
+  html{ height:100%; }
+  
+  body{ min-height:100%; padding:0; margin:0; position:relative; }
+  
+  body::after{ content:''; display:block; height:100px; }
+  
+  .toof{ position: absolute; width:100%; }
+
+  .biblio { display: flex; justify-content: space-between;}
+
+  .logo { height: auto; height:70px; margin-left: 25px;}
   
