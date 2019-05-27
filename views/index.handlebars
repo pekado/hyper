@@ -1,52 +1,26 @@
-
-
-  <ul id="slide-out" class="sidenav">
-    <li><div class="user-view">
-      <div class="background">
-        <img src="images/office.jpg">
-      </div>
-      <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-      <a href="#name"><span class="white-text name">John Doe</span></a>
-      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-<div class="container">
-  <div class="container">
-    <h1>Tu biblioteca</h1>
-    <div>
-        <input id="titleId" type="text" placeholder="Título, autor o ISBN">
-        <button class="waves-effect waves-light btn" onclick= 'getBooks()'>Buscar</button>
+    <h1 >Agrega un libro a tu biblioteca</h1>
+    <div class="section">
+    <div class="container"></div>
+      
+      <div >
+    <form action="/postfeedback" method="post">
+          <label>Título:<input type="text" name="titulo" ></label>
+          <br>
+          <label>Autor:<input type="text" name="autor" ></label>
+          <br>
+          <label>Editorial:<input type="text" name="editorial" ></label>
+          <br>
+          <input class="waves-effect waves-light btn" type="submit" value="Agregar">
+      </form>
+      
     </div>
-    <form method="POST" action="/post-feedback">
-        <label>Name:<input type="text" name="client-name" required></label>
-        <br>
-        <label>Email:<input type="text" name="client-email" required></label>
-        <br>
-        <label>Comment:<br><textarea name="comment"></textarea></label>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-    <a href="/view-feedbacks">View feedbacks</a>
-  </div>
+    </div>
+    <h4 >¿No tienes la información a mano? <br>Usa nuestro buscador.</h4>
+    <div class="section" >
+          <input id="titleId" type="text" placeholder="Título, autor o ISBN">
+          <button class="waves-effect waves-light btn" onclick= 'getBooks()'>Buscar</button>
+      </div>
     <div id="titleList"></div>
-  </div>  
-  <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, 
-
-
-
-    )
-    
-    
-
-  });
-
-  </script>
+    </div>
+ 
+  

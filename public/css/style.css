@@ -149,7 +149,7 @@ h1{
 
 .nosotros {text-align: center; padding-top: 30% ; margin-left: 20%; margin-right: 20%;}
 
-.section {text-align: center; margin-left: 20%; margin-right: 20%;}
+.section {text-align: center; margin-left: 40%; margin-right: 40%;}
 
 .cuerpo { width: 100%; height: 400vw;; background-color: white; color: dimgray;}
 
@@ -189,12 +189,14 @@ h1 { margin: none;}
   html{ height:100%; }
   
   body{ min-height:100%; padding:0; margin:0; position:relative; }
+
+  .biblio{ display: flex; text-align: center; color: white; margin-left: 10%; margin-right: 10%; width: 80%;}
   
   body::after{ content:''; display:block; height:100px; }
   
   .toof{ position: absolute; width:100%; }
 
-  .biblio { display: flex; justify-content: space-between;}
+  .logo { height: auto; height:70px; margin-left: 25px; float: left;}
 
-  .logo { height: auto; height:70px; margin-left: 25px;}
+  .cadalibro { border: 3px solid white; margin: 5vw; text-align: left; }
   

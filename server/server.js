@@ -5,25 +5,23 @@ const path = require ('path')
 const bodyParser = require('body-parser');
 const login = require('./login');
 
-// Obtenemos el objeto MongoClient
-const MongoClient = require('mongodb').MongoClient
 
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
-const url = mongodb.MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true });
-const db = 'Hyper';
-const collection = 'Usuarios';
+const url = "mongodb://localhost:27017";
 
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
 
 // Utilizamos el método connect para conectarnos a MongoDB
-client.connect(function (err, client) {
-  
-    // Acá va todo el código para interactuar con MongoDB
+client.connect(function(err, client) {
+  // Acá va todo el código para interactuar con MongoDB
   console.log("Conectados a MongoDB");
-  
-    
-  });
+
+  // Luego de usar la conexión podemos cerrarla
+  client.close();
+});
 
 
 
@@ -36,7 +34,11 @@ client.connect(function (err, client) {
 //Ruta para que use los archivos estaticos de /Public y body parser
 
 app.use(express.static(path.join(__dirname, '../public')));
+
+//te transforma todo en json body parser
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 //Seteo para que use hbs como engine, con layout main y la dirección a views/layout
 app.engine('handlebars', exphbs({
@@ -64,12 +66,9 @@ app.get('/index', (req,res) =>{
   res.render('index',{
     title: 'Hyper',
   })
-  url.then(function(db) {
-    db.collection('Usuarios').find({}).toArray().then(function(feedbacks) {
-        res.status(200).json(feedbacks);
-    });
-});
-})
+
+}); 
+
 
 //Ruta del boton home al home
 app.get('/home', (req,res)=> {
@@ -112,7 +111,7 @@ app.post('/login', (req, res) => {
     console.log(req.body);
     if (req.body.user !== undefined && req.body.password !== undefined) {
       if (login.validarUsuario(req.body.user, req.body.password)) {
-        res.send('/home');
+        res.send('/biblioteca');
       } else {
         res.sendStatus(403);
       }
@@ -122,21 +121,66 @@ app.post('/login', (req, res) => {
     
   });
 
-  //post de libro a db
-  app.post('/index', function (req, res) {
-    url.then(function(db) {
-        delete req.body._id; // for safety reasons
-        db.collection('Usuarios').insertOne(req.body);
-    });    
-    res.send('Data received:\n' + JSON.stringify(req.body));
+
+
+app.post("/postfeedback", function(req, res) {
+
+  const reqBodys ={
+    titulo: req.body.titulo,
+    autor: req.body.autor,
+    editorial: req.body.editorial  
+  }
+
+   // conecto al cliente
+   client.connect(function(error, client) {
+    // ingreso la database que usare
+    const db = client.db("hyper");
+    // ingreso la coleccion que usare
+    const coleccion = db.collection("libros");
+    coleccion.insertOne(reqBodys, (err, result) => {
+      // redirect al login para logearse
+        res.redirect("/index");
+      });
 });
+
+
+  console.log(reqBodys);
+  
+  
+  
+  });
+
+  //ruta para mostrar libros
+  app.get('/biblioteca', (req, res) =>{
+    
+ 
+
+ 
+     // conecto al cliente
+     client.connect(function(error, client) {
+      // ingreso la database que usare
+      const db = client.db("hyper");
+      // ingreso la coleccion que usare
+      const coleccion = db.collection("libros");
+      let arrayDeLibros = coleccion.find().toArray(function(err, data) {
+        console.log(data);
+        res.render('biblioteca', {
+          title: 'Tu Biblioteca',
+          libros: data
+        })
+        });
+
+
+    });
+  });
+    
+
+   
+  
+  
 
 
 //Servidor en puerto
 app.listen (3001, () => {
     console.log("estamos vivos en el 3001")
-});
-
-
-
-
+})
