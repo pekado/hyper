@@ -155,7 +155,7 @@ app.post("/postfeedback", function(req, res) {
 //post de libro a db
 app.post('/agregarlibro', (req, res) => {
   
-  let book = document.getElementById('bookfound').innerText
+  let book = req.body
 
      // conecto al cliente
      client.connect(function(error, client) {

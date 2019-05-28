@@ -24,14 +24,24 @@
     </div>
 
     <script>
-          let book = document.getElementById('bookfound').innerHTML
-      function addBook() {
-    
-       let book = document.getElementById('bookfound').innerHTML
-      console.log(book)
+          
+      function addBook(index) {
         
+    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           arrayResumido = this.responseText ;
+           console.log(arrayResumido)
+        }
+          };
+          xmlhttp.open("POST", "http://localhost:3001/agregarlibro");
+          xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xmlhttp.send(arrayResumido);
+          
+          }
+              
 
-}
+      
     </script>
  
   
