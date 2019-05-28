@@ -123,9 +123,12 @@ app.post('/login', (req, res) => {
 
 
 
+
+
 app.post("/postfeedback", function(req, res) {
 
   const reqBodys ={
+    username: 'admin',
     titulo: req.body.titulo,
     autor: req.body.autor,
     editorial: req.body.editorial  
@@ -145,10 +148,29 @@ app.post("/postfeedback", function(req, res) {
 
 
   console.log(reqBodys);
-  
-  
-  
+
   });
+
+
+//post de libro a db
+app.post('/agregarlibro', (req, res) => {
+  
+  let book = document.getElementById('bookfound').innerText
+
+     // conecto al cliente
+     client.connect(function(error, client) {
+      // ingreso la database que usare
+      const db = client.db("hyper");
+      // ingreso la coleccion que usare
+      const coleccion = db.collection("libros");
+      coleccion.insertOne(book, (err, result) => {
+        // redirect al login para logearse
+          res.redirect("/index");
+        });
+  });
+  
+
+});
 
   //ruta para mostrar libros
   app.get('/biblioteca', (req, res) =>{
