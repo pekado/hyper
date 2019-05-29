@@ -15,9 +15,7 @@ function getBooks() {
     arrayResumido = arrayOriginal.map(elemento => {
       return {
         titulo: elemento.volumeInfo.title,
-        autores: elemento.volumeInfo.authors
-          ? elemento.volumeInfo.authors.join(", ")
-          : "<NO INFORMADO>",
+        autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
         editorial: elemento.volumeInfo.publisher,
         lanzamiento: elemento.volumeInfo.publishedDate
       };
@@ -44,5 +42,6 @@ function addBook(index) {
     }
   };
   xmlhttp.open("POST", "/agregarlibro");
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.send(JSON.stringify(arrayResumido[index]));
 }

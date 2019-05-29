@@ -114,7 +114,7 @@ app.post("/postfeedback", function(req, res) {
   const reqBodys = {
     username: "admin",
     titulo: req.body.titulo,
-    autor: req.body.autor,
+    autores: req.body.autores,
     editorial: req.body.editorial
   };
 
