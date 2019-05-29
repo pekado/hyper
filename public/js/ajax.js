@@ -52,7 +52,7 @@ function getBooks() {
         }
      };
           xmlhttp.open("POST", "/agregarlibro");
-          xmlhttp.send(arrayResumido.titulo);
+          xmlhttp.send(JSON.stringify(arrayResumido[index]));
           
     }
               

@@ -154,14 +154,14 @@ app.post("/postfeedback", function(req, res) {
 
 //post de libro a db
 app.post('/agregarlibro', (req, res) => {
-  
+    console.log(req.body)
   let book = {
     username: 'admin',
     titulo: req.body.titulo,
-    autor: req.body.autor,
+    autores: req.body.autores,
     editorial: req.body.editorial  
   }
-  console.log(book)
+
      // conecto al cliente
      client.connect(function(error, client) {
       // ingreso la database que usare
@@ -170,7 +170,7 @@ app.post('/agregarlibro', (req, res) => {
       const coleccion = db.collection("libros");
       coleccion.insertOne(book, (err, result) => {
         // redirect al login para logearse
-          res.redirect("/index");
+
         });
   });
   
