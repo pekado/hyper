@@ -1,5 +1,5 @@
-var arrayResumido
-var index
+var arrayResumido 
+var filaLibro
 
 function getBooks() {
   
@@ -14,7 +14,7 @@ function getBooks() {
 
       let arrayOriginal = JSON.parse(xhr.responseText).items;
       
-        let arrayResumido = arrayOriginal.map(elemento=>{
+        arrayResumido = arrayOriginal.map(elemento=>{
           return {
             titulo: elemento.volumeInfo.title,
             autores: (elemento.volumeInfo.authors) ? elemento.volumeInfo.authors.join(', ')  : '<NO INFORMADO>',
@@ -25,7 +25,7 @@ function getBooks() {
 
        for (let index = 0; index < arrayResumido.length; index++) {
          
-         filaLibro = `<ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial}</li><li>${arrayResumido[index].lanzamiento}</ul><br><button class="button" onclick='addBook(index)'>Agregar Libro</button><hr>`
+         filaLibro = `<ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial}</li><li>${arrayResumido[index].lanzamiento}</ul><br><button class="button" onclick='addBook(${index})'>Agregar Libro</button><hr>`
          document.getElementById('titleList').innerHTML += filaLibro;
        }
        
@@ -41,7 +41,21 @@ function getBooks() {
     xhr.send('');
   }
   
-
+  function addBook(index) {
+        
+    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+    xmlhttp.onreadystatechange = function() {
+      
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(arrayResumido)
+           
+        }
+     };
+          xmlhttp.open("POST", "/agregarlibro");
+          xmlhttp.send(arrayResumido.titulo);
+          
+    }
+              
  
     
 

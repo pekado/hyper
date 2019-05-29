@@ -127,7 +127,7 @@ app.post('/login', (req, res) => {
 
 app.post("/postfeedback", function(req, res) {
 
-  const reqBodys ={
+  const reqBodys = {
     username: 'admin',
     titulo: req.body.titulo,
     autor: req.body.autor,
@@ -155,8 +155,13 @@ app.post("/postfeedback", function(req, res) {
 //post de libro a db
 app.post('/agregarlibro', (req, res) => {
   
-  let book = req.body
-
+  let book = {
+    username: 'admin',
+    titulo: req.body.titulo,
+    autor: req.body.autor,
+    editorial: req.body.editorial  
+  }
+  console.log(book)
      // conecto al cliente
      client.connect(function(error, client) {
       // ingreso la database que usare
