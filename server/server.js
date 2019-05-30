@@ -4,6 +4,7 @@ const exphbs = require("express-handlebars");
 const path = require("path");
 const bodyParser = require("body-parser");
 const login = require("./login");
+var expressSession = require('express-session')
 
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
@@ -27,6 +28,13 @@ client.connect(function(err, client) {
 //Ruta para que use los archivos estaticos de /Public y body parser
 
 app.use(express.static(path.join(__dirname, "../public")));
+
+// Manejo de sesión en Express con opciones basatante default.
+app.use(expressSession({
+  secret: 'el tino es hetero',
+  resave: false,
+  saveUninitialized: false
+}))
 
 //te transforma todo en json body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -97,18 +105,36 @@ app.get("/login", (req, res) => {
 });
 
 // POST /login
-app.post("/login", (req, res) => {
-  console.log(req.body);
+app.post('/login', (req, res) => {
+  
   if (req.body.user !== undefined && req.body.password !== undefined) {
-    if (login.validarUsuario(req.body.user, req.body.password)) {
-      res.send("/biblioteca");
-    } else {
-      res.sendStatus(403);
-    }
-  } else {
-    res.status(403).end();
+
+    login.validarUsuario(req.body.user, req.body.password,
+      function() {
+        // Callback para invocar si validó bien. Guarda la sesión e indica navegar al home.
+        req.session.userId = req.body.user;
+        res.redirect('/biblioteca');
+      }, function() {
+        // Si validó mal, se destruye la sesión (por si la hubiera) y redirige a página inicial
+        req.session.destroy();
+        res.redirect('/home');
+      });
+
   }
+  
 });
+
+
+// GET logout
+app.get('/logout', (req, res) => {
+
+  // Destruyo sesión y redirijo al login.
+  req.session.destroy();
+  res.redirect("/");
+
+});
+
+//Api que recoje datos del formulario que ingresa libros
 
 app.post("/postfeedback", function(req, res) {
   const reqBodys = {
@@ -157,6 +183,14 @@ app.post("/agregarlibro", (req, res) => {
 
 //ruta para mostrar libros
 app.get("/biblioteca", (req, res) => {
+
+    // Si no hay sesión, devuelvo un 403 ("no autorizado")
+   if (req.session.userId == undefined) {
+     res.status(403).redirect('/login');
+     
+     }  else {
+      // El Return es para que no siga con el resto de la función.
+    
   // conecto al cliente
   client.connect(function(error, client) {
     // ingreso la database que usare
@@ -171,7 +205,10 @@ app.get("/biblioteca", (req, res) => {
       });
     });
   });
+};
 });
+   
+
 
 //Servidor en puerto
 app.listen(3001, () => {

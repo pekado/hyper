@@ -235,6 +235,12 @@ body {
   margin-left: 10%;
   margin-right: 10%;
   width: 80%;
+
+
+  flex-wrap: wrap;
+  padding: 5%;
+  margin:-10px 0 0 -10px;
+  position: relative;
 }
 
 body::after {
