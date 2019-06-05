@@ -13,17 +13,26 @@
 
 <body class="entrance">
   <!-- Dropdown Structure -->
+  
   <nav>
     <div class="nav-wrapper">
       <a href="/"><img class="logo" src="images/logo2.png"></a>
       <ul class="right hide-on-med-and-down">
+      {{#if signout}}  
         <li><a href="/login">Ingresar</a></li>
         <li><a href="/registrar">Registrate</a></li>
-        <li><a href="/biblioteca">Biblioteca</a></li>
-
+      {{/if}}  
+      {{#if signin}}
+      <li>Hola {{usuario}}!</li>
+       <li><a href="/buscador">Explorar</a></li>
+        <li><a href="/biblioteca">Mi Biblioteca</a></li>
+        <li><a href="/logout">Salir</a></li>
+      {{/if}}  
       </ul>
     </div>
   </nav>
+
+ 
 
   {{{body}}}
 

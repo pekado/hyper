@@ -30,6 +30,7 @@ function validarUsuario(user, password, cbOK, cbErr) {
         // Si no encontró ninguno o encontró más de uno (que solo sería posible si tengo algún
         // usuario duplicado por error, pero ya que estamos), llamo al callback de error
         cbErr();
+        console.log('usuario incorrecto')
       }
 
       client.close();

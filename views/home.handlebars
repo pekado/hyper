@@ -41,9 +41,41 @@
         resultado. Te presentaremos los diez libros más relevantes a tu búsqueda, con título, autor, editorial y 
         fecha de lanzamiento.
     </h6>
-    <button class="waves-effect waves-light btn" onclick= 'getBooks()'>Buscar</button>
+    <button class="waves-effect waves-light btn" onclick= 'getBook()'>Buscar</button>
 
 </div>    
+
+<script>
+    function getBook() {
+  let titleId = document.getElementById("titleId").value;
+
+  let xhr = new XMLHttpRequest();
+
+  xhr.onload = function() {
+    document.getElementById("titleList").innerHTML = "";
+
+    let arrayOriginal = JSON.parse(xhr.responseText).items;
+
+    arrayResumido = arrayOriginal.map(elemento => {
+      return {
+        titulo: elemento.volumeInfo.title,
+        autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
+        editorial: elemento.volumeInfo.publisher,
+        lanzamiento: elemento.volumeInfo.publishedDate
+      };
+    });
+
+    for (let index = 0; index < arrayResumido.length; index++) {
+      filaLibro = `<hr><ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial }</li><li>${arrayResumido[index].lanzamiento}</ul><br><hr>`;
+      document.getElementById("titleList").innerHTML += filaLibro;
+    }
+
+    console.log(arrayResumido);
+  };
+  xhr.open("GET", `https://www.googleapis.com/books/v1/volumes?q=${titleId}`);
+  xhr.send("");
+}
+</script>
 
 
 
