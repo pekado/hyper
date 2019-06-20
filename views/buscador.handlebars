@@ -1,14 +1,24 @@
+ <div class="section">
+    <form action="/findlocalbooks" method="get">
+        <input type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN">
+        <button type="submit" class="waves-effect waves-light btn" >Buscar Libros</button>
+    </form>
+    <div class="error-message" id="error-message"></div>
+</div>
+
+<div id="localbooks"></div>
+
 <div class="container biblio">
-     {{#each libros}}
-        <div class="cadalibro padding">
-            <ul>
-                
-                <li>Título: {{this.titulo}}</li>
-                <li>Autor/es: {{this.autores}}</li>
-                <li>Editorial: {{this.editorial}}</li>
-                <li>Usuario: {{this.name}}</li>
-               
-            </ul>
-        </div>
-         {{/each}}
+    {{#each libros}}
+    <div class="cadalibro padding">
+        <ul>
+
+            <li>Título: {{this.titulo}}</li>
+            <li>Autor/es: {{this.autores}}</li>
+            <li>Editorial: {{this.editorial}}</li>
+            <li>Usuario: {{this.name}}</li>
+
+        </ul>
     </div>
+    {{/each}}
+</div>

@@ -45,3 +45,36 @@ function addBook(index) {
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.send(JSON.stringify(arrayResumido[index]));
 }
+
+
+//Fucnión que busca libros en db
+
+function findLocalBooks() {
+  let titleId = document.getElementById("titleId").value;
+
+  let xhr = new XMLHttpRequest();
+
+  xhr.onload = function() {
+    document.getElementById("titleList").innerHTML = "";
+    document.getElementById('recentbooks').innerHTML = "";
+
+    let arrayOriginal = JSON.parse(xhr.responseText).items;
+
+    arrayResumido = arrayOriginal.map(elemento => {
+      return {
+        titulo: elemento.volumeInfo.title,
+        autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
+        editorial: elemento.volumeInfo.publisher,
+      };
+    });
+
+    for (let index = 0; index < arrayResumido.length; index++) {
+      filaLibro = `<ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial }</li><li>${arrayResumido[index].lanzamiento}</ul><br><button class="button" onclick='addBook(${index})'>Agregar Libro</button><hr>`;
+      document.getElementById("titleList").innerHTML += filaLibro;
+    }
+
+    console.log(arrayResumido);
+  };
+  xhr.open("GET", `https://localhost:28017/hyper/libros?q=${titleId}`);
+  xhr.send("");
+}

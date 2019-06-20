@@ -5,6 +5,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const login = require("./login");
 const expressSession = require("express-session");
+const findlocalbooks = require("./findLocalBooks");
 
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
@@ -101,6 +102,13 @@ app.post("/login", (req, res) => {
   }
 });
 
+//post buscador de libro en db
+app.get("/findlocalbooks", (req, res) =>{
+  findlocalbooks.findLocalBooks(
+    req.body.titulo
+  )
+})
+
 // GET logout
 app.get("/logout", (req, res) => {
   // Destruyo sesión y redirijo al login.
@@ -130,17 +138,17 @@ app.get("/buscador", (req, res) => {
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      let arrayDeLibros = coleccion.find().sort({_id: -1}).toArray(function(err, data) {
+      arrayDeLibros = coleccion.find().sort({ _id: -1 }).toArray(function(err, data) {
           console.log(data);
-    res.render("buscador", {
-      title: "Encuentra tu próximo libro",
-      signin: true,
-      usuario: req.session.userId,
-      libros: data
+          res.render("buscador", {
+            title: "Encuentra tu próximo libro",
+            signin: true,
+            usuario: req.session.userId,
+            libros: data
+          });
+        });
     });
-  })
-});
-}
+  }
 });
 //Api que recoje datos del formulario que ingresa libros
 
@@ -236,16 +244,13 @@ app.get("/biblioteca", (req, res) => {
   if (req.session.userId == undefined) {
     res.status(403).redirect("/login");
   } else {
-    // El Return es para que no siga con el resto de la función.
-
     // conecto al cliente
     client.connect(function(error, client) {
       // ingreso la database que usare
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      let arrayDeLibros = coleccion
-        .find({ name: req.session.userId }).sort({_id: -1}).toArray(function(err, data) {
+      arrayDeLibros = coleccion.find({ name: req.session.userId }).sort({ _id: -1 }).toArray(function(err, data) {
           console.log(data);
           res.render("biblioteca", {
             title: "Tu Biblioteca",
