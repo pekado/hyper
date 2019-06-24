@@ -105,9 +105,23 @@ app.post("/login", (req, res) => {
 //post buscador de libro en db
 app.get("/findlocalbooks", (req, res) =>{
   findlocalbooks.findLocalBooks(
-    req.body.titulo
+    client.connect(function(error, client) {
+      // ingreso la database que usare
+      const db = client.db("hyper");
+      // ingreso la coleccion que usare
+      const coleccion = db.collection("libros");
+      arrayDeLibros = coleccion.find(req.body.title).sort({ _id: -1 }).toArray(function(err, data) {
+          console.log(data);
+          res.render("buscador", {
+            title: "Encuentra tu próximo libro",
+            signin: true,
+            usuario: req.session.userId,
+            libros: data
+          });
+        });
+    })
   )
-})
+});
 
 // GET logout
 app.get("/logout", (req, res) => {

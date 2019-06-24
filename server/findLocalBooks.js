@@ -24,9 +24,10 @@ function findLocalBooks(title) {
     // de username y password enviado.
     collUser.find( {titulo: title }).toArray((err, data) => {
       if (data.length == 1) {
+        console.log(data)
         document.getElementById('localbooks').innerHTML = data;
       } else {
-        document.getElementById('localbooks').innerHTML = '<h6>Aún nadie agregó ese libro<h6>';
+
       }
 
       client.close();
