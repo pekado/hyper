@@ -17,12 +17,13 @@ function getBooks() {
         titulo: elemento.volumeInfo.title,
         autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
         editorial: elemento.volumeInfo.publisher,
-        lanzamiento: elemento.volumeInfo.publishedDate
+        lanzamiento: elemento.volumeInfo.publishedDate,
+        categoria: elemento.volumeInfo.categories
       };
     });
 
     for (let index = 0; index < arrayResumido.length; index++) {
-      filaLibro = `<ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial }</li><li>${arrayResumido[index].lanzamiento}</ul><br><button class="button" onclick='addBook(${index})'>Agregar Libro</button><hr>`;
+      filaLibro = `<div class="cadalibro padding"><ul class="bookfound"><li>Título: ${arrayResumido[index].titulo}</li><li>Autor/es: ${arrayResumido[index].autores}</li><li>Editorial: ${arrayResumido[index].editorial }</li><li>Lanzamiento: ${arrayResumido[index].lanzamiento}<li>Categoría: ${arrayResumido[index].categoria}</li></ul><br><button class="waves-effect waves-light btn pink darken-1 right" onclick='addBook(${index})'>Agregar Libro</button></div>`;
       document.getElementById("titleList").innerHTML += filaLibro;
     }
 
@@ -35,46 +36,44 @@ function getBooks() {
 //función que agrega metadatos a la db
 
 function addBook(index) {
+  if (confirm(`¿Estás seguro que quieres agregar ${arrayResumido[index].titulo}?`)){
   var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
   xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(arrayResumido);
+  
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(arrayResumido);
+      }
+    
     }
-  };
-  xmlhttp.open("POST", "/agregarlibro");
-  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xmlhttp.send(JSON.stringify(arrayResumido[index]));
+    xmlhttp.open("POST", "/agregarlibro");
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify(arrayResumido[index]));
+};
 }
 
 
 //Fucnión que busca libros en db
 
 function findLocalBooks() {
-  let titleId = document.getElementById("titleId").value;
+  let req = new XMLHttpRequest();
+  let titleId = document.getElementById("title").value;
 
-  let xhr = new XMLHttpRequest();
 
-  xhr.onload = function() {
-    document.getElementById("titleList").innerHTML = "";
-    document.getElementById('recentbooks').innerHTML = "";
+  console.log(titleId)
+  req.onload = function() {
+    
 
-    let arrayOriginal = JSON.parse(xhr.responseText).items;
+    
+    req.open("POST", "/findlocalbooks");
 
-    arrayResumido = arrayOriginal.map(elemento => {
-      return {
-        titulo: elemento.volumeInfo.title,
-        autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
-        editorial: elemento.volumeInfo.publisher,
-      };
-    });
-
-    for (let index = 0; index < arrayResumido.length; index++) {
-      filaLibro = `<ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial }</li><li>${arrayResumido[index].lanzamiento}</ul><br><button class="button" onclick='addBook(${index})'>Agregar Libro</button><hr>`;
-      document.getElementById("titleList").innerHTML += filaLibro;
-    }
-
-    console.log(arrayResumido);
+    let data = {
+      title: document.getElementById("title").value,
+      
+    };
+    console.log(data)
+  
+  
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(JSON.stringify(data));
   };
-  xhr.open("GET", `https://localhost:28017/hyper/libros?q=${titleId}`);
-  xhr.send("");
 }

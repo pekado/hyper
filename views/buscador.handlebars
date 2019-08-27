@@ -1,7 +1,7 @@
  <div class="section">
     <form action="/findlocalbooks" method="get">
-        <input type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN">
-        <a href="/findLocalBooks" class="waves-effect waves-light btn">Buscar Libros</a>
+        <input id="title" type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN">
+        <input type="submit" onclick="findLocalBooks()" class="waves-effect waves-light btn pink darken-1">
     </form>
     <div class="error-message" id="error-message"></div>
 </div>
@@ -22,3 +22,4 @@
     </div>
     {{/each}}
 </div>
+<script src="js/ajax.js"></script>

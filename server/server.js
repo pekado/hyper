@@ -5,7 +5,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const login = require("./login");
 const expressSession = require("express-session");
-const findlocalbooks = require("./findLocalBooks");
+
 
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
@@ -104,13 +104,13 @@ app.post("/login", (req, res) => {
 
 //post buscador de libro en db
 app.get("/findlocalbooks", (req, res) =>{
-  findlocalbooks.findLocalBooks(
+  arrayDeLibros = [];
     client.connect(function(error, client) {
       // ingreso la database que usare
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      arrayDeLibros = coleccion.find(req.body.title).sort({ _id: -1 }).toArray(function(err, data) {
+      arrayDeLibros = coleccion.find( { $elemMatch: req.body.title} ).sort({ _id: -1 }).toArray(function(err, data) {
           console.log(data);
           res.render("buscador", {
             title: "Encuentra tu próximo libro",
@@ -119,9 +119,9 @@ app.get("/findlocalbooks", (req, res) =>{
             libros: data
           });
         });
-    })
-  )
+    });
 });
+
 
 // GET logout
 app.get("/logout", (req, res) => {
@@ -164,6 +164,7 @@ app.get("/buscador", (req, res) => {
     });
   }
 });
+
 //Api que recoje datos del formulario que ingresa libros
 
 app.post("/postfeedback", function(req, res) {
@@ -171,7 +172,8 @@ app.post("/postfeedback", function(req, res) {
     name: req.session.userId,
     titulo: req.body.titulo,
     autores: req.body.autores,
-    editorial: req.body.editorial
+    editorial: req.body.editorial,
+    categoria: req.body.categoria
   };
 
   // conecto al cliente
@@ -237,7 +239,8 @@ app.post("/agregarlibro", (req, res) => {
     name: req.session.userId,
     titulo: req.body.titulo,
     autores: req.body.autores,
-    editorial: req.body.editorial
+    editorial: req.body.editorial,
+    categoria: req.body.categoria
   };
 
   // conecto al cliente

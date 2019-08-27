@@ -7,6 +7,7 @@ body {
   -webkit-animation: Gradient 15s ease infinite;
   -moz-animation: Gradient 15s ease infinite;
   animation: Gradient 15s ease infinite;
+  font-family: 'Didact Gothic', sans-serif;
 }
 
 @-webkit-keyframes Gradient {
@@ -229,18 +230,16 @@ body {
 }
 
 .biblio {
-  display: flex;
+  display: inline-flex;
   text-align: center;
   color: white;
   margin-left: 10%;
   margin-right: 10%;
-  width: 80%;
-
-
   flex-wrap: wrap;
   padding: 5%;
   margin:-10px 0 0 -10px;
   position: relative;
+  justify-content: space-around;
 }
 
 body::after {
@@ -263,6 +262,8 @@ body::after {
 
 .cadalibro {
   border: 3px solid white;
-  margin: 5vw;
+  margin-top: 5vw;
+  margin-bottom: 5vw;
   text-align: left;
+  width: 40%;
 }

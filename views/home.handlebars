@@ -25,7 +25,7 @@
     </div>
     
 </div>
-<a class="waves-effect waves-light btn boton " href="/registrar">Registrate</a>
+<a class="waves-effect waves-light btn boton pink darken-3" href="/registrar">Registrate</a>
 
 <div class="nosotros " data-aos="fade-up">
     <h2 class="padding">Utiliza nuestro buscador!</h2>
@@ -35,12 +35,13 @@
         resultado. Te presentaremos los diez libros más relevantes a tu búsqueda, con título, autor, editorial y 
         fecha de lanzamiento.
     </h6>
+</div>    
     <div class="padding nosotros">
     <input id="titleId" type="text" placeholder="Título, autor o ISBN"> 
-    <button class="waves-effect waves-light btn" onclick= 'getBook()'>Buscar</button>
-
-    <div id="titleList"></div>
+    <button class="waves-effect waves-light btn pink darken-1" onclick= 'getBook()'>Buscar</button>
 </div>
+    <div id="titleList" class="biblio"></div>
+
     
 
 
@@ -62,12 +63,13 @@
         titulo: elemento.volumeInfo.title,
         autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
         editorial: elemento.volumeInfo.publisher,
-        lanzamiento: elemento.volumeInfo.publishedDate
+        lanzamiento: elemento.volumeInfo.publishedDate,
+        categoria: elemento.volumeInfo.categories
       };
     });
 
     for (let index = 0; index < arrayResumido.length; index++) {
-      filaLibro = `<hr><ul class="bookfound"><li>${arrayResumido[index].titulo}</li><li>${arrayResumido[index].autores}</li><li>${arrayResumido[index].editorial }</li><li>${arrayResumido[index].lanzamiento}</ul><br><hr>`;
+      filaLibro = `<div class="cadalibro padding"><ul class="bookfound"><li>Titulo: ${arrayResumido[index].titulo}</li><li>Autor/es: ${arrayResumido[index].autores}</li><li>Editorial: ${arrayResumido[index].editorial }</li><li>Lanzamiento: ${arrayResumido[index].lanzamiento}</li><li>Categoria: ${arrayResumido[index].categoria}</li></ul><br></div>`;
       document.getElementById("titleList").innerHTML += filaLibro;
     }
 

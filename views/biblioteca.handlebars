@@ -14,24 +14,26 @@
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
   </ul>
   <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
-    <div class="container biblio">
+  <div>
+    <h1 class="padding">Tu biblioteca compartible</h1>
+    <a class="waves-effect waves-light btn boton pink darken-1 " href="/agregar">Agregar libros</a>
+  </div>
+    <div class="biblio">
      {{#each libros}}
         <div class="cadalibro padding">
-            <ul>
+            <ul class="bookfound"> 
                 
                
                 <li>Título: {{this.titulo}}</li>
                 <li>Autor/es: {{this.autores}}</li>
                 <li>Editorial: {{this.editorial}}</li>
+                <li>Categoria: {{this.categoria}}</li>
                
             </ul>
         </div>
          {{/each}}
     </div>
-<div>
-    <a class="waves-effect waves-light btn boton " href="/agregar">Agregar libros</a>
-</div>
+
 
 <script>
        document.addEventListener('DOMContentLoaded', function() {

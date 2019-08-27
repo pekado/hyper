@@ -22,7 +22,7 @@ function findLocalBooks(title) {
 
     // Busca todos los documentos en la colección que coincidan con el criterio
     // de username y password enviado.
-    collUser.find( {titulo: title }).toArray((err, data) => {
+    title.find( {titulo: title }).toArray((err, data) => {
       if (data.length == 1) {
         console.log(data)
         document.getElementById('localbooks').innerHTML = data;
