@@ -10,7 +10,7 @@ userId = undefined;
  * @param {string} password Clave
  */
 function validarUsuario(user, password, cbOK, cbErr) {
-
+  console.log(user)
   // Se conecta al motor de base de datos
   MongoClient.connect(dbURL, (err, client) => {
 

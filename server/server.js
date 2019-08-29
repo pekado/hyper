@@ -104,24 +104,24 @@ app.post("/login", (req, res) => {
 
 //post buscador de libro en db
 app.get("/findlocalbooks", (req, res) =>{
-  arrayDeLibros = [];
+
+  function findbooks(title) {
+  
+  console.log(req.body.title);
+  
     client.connect(function(error, client) {
       // ingreso la database que usare
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      arrayDeLibros = coleccion.find( { $elemMatch: req.body.title} ).sort({ _id: -1 }).toArray(function(err, data) {
-          console.log(data);
-          res.render("buscador", {
-            title: "Encuentra tu próximo libro",
-            signin: true,
-            usuario: req.session.userId,
-            libros: data
-          });
+      console.log(req.body.title);
+      arrayDeLibros = coleccion.find({titulo: req.body.title}).sort({ _id: -1 }).toArray(function(err, data) {
+          console.log();
+          res.push(data);
         });
     });
+};
 });
-
 
 // GET logout
 app.get("/logout", (req, res) => {

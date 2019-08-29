@@ -56,24 +56,22 @@ function addBook(index) {
 
 function findLocalBooks() {
   let req = new XMLHttpRequest();
-  let titleId = document.getElementById("title").value;
+
+  req.onload = function () {
+    console.log(req.responseText)
+  }
 
 
-  console.log(titleId)
-  req.onload = function() {
-    
 
-    
-    req.open("POST", "/findlocalbooks");
 
-    let data = {
-      title: document.getElementById("title").value,
-      
-    };
-    console.log(data)
-  
-  
-    req.setRequestHeader("Content-type", "application/json");
-    req.send(JSON.stringify(data));
+  req.open("GET", "/findlocalbooks");
+  let title = {
+    title: document.getElementById("title").value
   };
-}
+  
+  console.log(title)
+
+
+  req.setRequestHeader("Content-type", "application/json");
+  req.send(JSON.stringify(title));
+};
