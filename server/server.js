@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const login = require("./login");
 const expressSession = require("express-session");
 
-
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
@@ -40,7 +39,11 @@ app.use(
 );
 
 //te transforma todo en json body parser
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use(bodyParser.json());
 
 //Seteo para que use hbs como engine, con layout main y la dirección a views/layout
@@ -96,31 +99,38 @@ app.post("/login", (req, res) => {
       function() {
         // Si validó mal, se destruye la sesión (por si la hubiera) y redirige a página inicial
         req.session.destroy();
-        res.redirect("/home");
+        res.redirect("/login");
       }
     );
   }
 });
 
-//post buscador de libro en db
-app.get("/findlocalbooks", (req, res) =>{
 
-  function findbooks(title) {
-  
-  console.log(req.body.title);
-  
-    client.connect(function(error, client) {
-      // ingreso la database que usare
-      const db = client.db("hyper");
-      // ingreso la coleccion que usare
-      const coleccion = db.collection("libros");
-      console.log(req.body.title);
-      arrayDeLibros = coleccion.find({titulo: req.body.title}).sort({ _id: -1 }).toArray(function(err, data) {
-          console.log();
-          res.push(data);
+
+//post buscador de libro en db
+app.post("/findlocalbooks", (req, res) => {
+  let reqbody = {
+    title: req.body.title
+  };
+  console.log(reqbody);
+  client.connect(function(error, client) {
+    // ingreso la database que usare
+    const db = client.db("hyper");
+    // ingreso la coleccion que usare
+    const coleccion = db.collection("libros");
+    arrayDeLibros = coleccion
+      .find({ titulo: { $regex: req.body.title, $options: "i" } })
+      .sort({ _id: -1 })
+      .toArray(function(err, data) {
+        JSON.stringify(data);
+        res.render("buscador", {
+          title: "Encuentra tu próximo libro",
+          signin: true,
+          usuario: req.session.userId,
+          libros: data
         });
-    });
-};
+      });
+  });
 });
 
 // GET logout
@@ -147,20 +157,32 @@ app.get("/buscador", (req, res) => {
   } else {
     // El Return es para que no siga con el resto de la función.
     // conecto al cliente
-    client.connect(function(error, client) {
+    client.connect(function (error, client) {
       // ingreso la database que usare
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      arrayDeLibros = coleccion.find().sort({ _id: -1 }).toArray(function(err, data) {
-          console.log(data);
-          res.render("buscador", {
-            title: "Encuentra tu próximo libro",
-            signin: true,
-            usuario: req.session.userId,
-            libros: data
+
+      //busca el campo categoría 
+      const categorias = coleccion.distinct("categoria"); 
+      console.log(categorias)
+        arrayDeLibros = coleccion
+          .find()
+          .sort({
+            _id: -1
+          })
+          .toArray(function (err, data) {
+            console.log(data);
+            res.render("buscador", {
+              title: "Encuentra tu próximo libro",
+              signin: true,
+              usuario: req.session.userId,
+              libros: data,
+              categorias: data
+            });
           });
-        });
+      
+
     });
   }
 });
@@ -267,7 +289,14 @@ app.get("/biblioteca", (req, res) => {
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-      arrayDeLibros = coleccion.find({ name: req.session.userId }).sort({ _id: -1 }).toArray(function(err, data) {
+      arrayDeLibros = coleccion
+        .find({
+          name: req.session.userId
+        })
+        .sort({
+          _id: -1
+        })
+        .toArray(function(err, data) {
           console.log(data);
           res.render("biblioteca", {
             title: "Tu Biblioteca",

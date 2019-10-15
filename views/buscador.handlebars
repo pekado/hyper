@@ -1,17 +1,23 @@
  <div class="section">
-    <form action="/findlocalbooks" method="get">
+    <form action="/findlocalbooks" method="post">
         <input id="title" type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN">
-        <button onclick="findLocalBooks()" class="waves-effect waves-light btn pink darken-1"></button>
+        <button type="submit" name="findlocalbooks" class="waves-effect waves-light btn pink darken-1">Buscar</button>
     </form>
     <div class="error-message" id="error-message"></div>
 </div>
 
-<div id="localbooks"></div>
 
-<div class="container biblio">
+    {{#each categorias}}
+        <h4>{{categorias}}</h4>
+    {{/each}}    
+
+
+
+
+<div id="localbooks" class="biblio">
     {{#each libros}}
     <div class="cadalibro padding">
-        <ul>
+        <ul class="bookfound">
 
             <li>Título: {{this.titulo}}</li>
             <li>Autor/es: {{this.autores}}</li>
