@@ -18,12 +18,12 @@ function getBooks() {
         autores: elemento.volumeInfo.authors ? elemento.volumeInfo.authors.join(", "): "<NO INFORMADO>",
         editorial: elemento.volumeInfo.publisher,
         lanzamiento: elemento.volumeInfo.publishedDate,
-        categoria: elemento.volumeInfo.categories
+        categoria: elemento.volumeInfo.categories ? elemento.volumeInfo.categories.join(", "): "Sin Categoria"
       };
     });
 
     for (let index = 0; index < arrayResumido.length; index++) {
-      filaLibro = `<div class="cadalibro padding"><ul class="bookfound"><li>Título: ${arrayResumido[index].titulo}</li><li>Autor/es: ${arrayResumido[index].autores}</li><li>Editorial: ${arrayResumido[index].editorial }</li><li>Lanzamiento: ${arrayResumido[index].lanzamiento}<li>Categoría: ${arrayResumido[index].categoria}</li></ul><br><button class="waves-effect waves-light btn pink darken-1 right" onclick='addBook(${index})'>Agregar Libro</button></div>`;
+      filaLibro = `<div class="cadalibro padding hoverable"><ul class="bookfound"><li>Título: ${arrayResumido[index].titulo}</li><li>Autor/es: ${arrayResumido[index].autores}</li><li>Editorial: ${arrayResumido[index].editorial }</li><li>Lanzamiento: ${arrayResumido[index].lanzamiento}<li>Categoría: ${arrayResumido[index].categoria}</li></ul><br><button class="waves-effect waves-light btn pink darken-1 right" onclick='addBook(${index})'>Agregar Libro</button></div>`;
       document.getElementById("titleList").innerHTML += filaLibro;
     }
 
@@ -50,28 +50,3 @@ function addBook(index) {
     xmlhttp.send(JSON.stringify(arrayResumido[index]));
 };
 }
-
-
-//Fucnión que busca libros en db
-
-function findLocalBooks() {
-  let req = new XMLHttpRequest();
-
-  req.onload = function () {
-    console.log(req.responseText)
-  }
-
-
-
-
-  req.open("GET", "/findlocalbooks");
-  let title = {
-    title: document.getElementById("title").value
-  };
-  
-  console.log(title)
-
-
-  req.setRequestHeader("Content-type", "application/json");
-  req.send(JSON.stringify(title));
-};

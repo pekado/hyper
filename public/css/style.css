@@ -265,5 +265,9 @@ body::after {
   margin-top: 5vw;
   margin-bottom: 5vw;
   text-align: left;
-  width: 40%;
+  
+}
+
+.margin{
+  margin-top: 1vw;
 }

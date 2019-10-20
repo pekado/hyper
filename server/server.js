@@ -123,6 +123,7 @@ app.post("/findlocalbooks", (req, res) => {
       .sort({ _id: -1 })
       .toArray(function(err, data) {
         JSON.stringify(data);
+        console.log(data);
         res.render("buscador", {
           title: "Encuentra tu próximo libro",
           signin: true,
@@ -149,6 +150,18 @@ app.get("/registrar", (req, res) => {
   });
 });
 
+
+//intento de asyn await
+//app.get("/buscador", async (req, res) => {
+  //try {
+    //await client.connect();
+    //const libros = await coleccion.find().sort({ _id: -1}).toArray()
+   // const categorias = await coleccion.distinct("categoria")
+  //} catch (error) {
+    
+  //}
+//})
+
 //ruta a buscador de libros en la db
 app.get("/buscador", (req, res) => {
   // Si no hay sesión, devuelvo un 403 ("no autorizado")
@@ -162,30 +175,70 @@ app.get("/buscador", (req, res) => {
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
-
       //busca el campo categoría 
-      const categorias = coleccion.distinct("categoria"); 
-      console.log(categorias)
-        arrayDeLibros = coleccion
-          .find()
-          .sort({
-            _id: -1
-          })
-          .toArray(function (err, data) {
-            console.log(data);
-            res.render("buscador", {
-              title: "Encuentra tu próximo libro",
-              signin: true,
-              usuario: req.session.userId,
-              libros: data,
-              categorias: data
-            });
-          });
-      
+      arrayDeLibros = coleccion
+        .find()
+        .sort({
+          _id: -1
+        })
+        .toArray(function (err, data) {
+          if (data == undefined) {
+            res.send(err)
+          } else {
+            
 
+              categorias = coleccion.distinct("categoria" , { "categoria" : { $nin : ["", null] } }, function (err, categoria) {
+                console.log(categoria);
+                res.render("buscador", {
+                  title: "Encuentra tu próximo libro",
+                  signin: true,
+                  usuario: req.session.userId,
+                  libros: data,
+                  categorias: categoria
+                });
+              });
+            
+          }
+        })
     });
-  }
+  };
 });
+
+
+//Api that filter by category
+app.post("/onlyonecategory", (req, res) => {
+  const reqbody = req.body.category;
+  console.log(reqbody);
+  client.connect(function (error, client) {
+    // ingreso la database que usare
+    const db = client.db("hyper");
+    // ingreso la coleccion que usare
+    const coleccion = db.collection("libros");
+    coleccion
+      .find({
+        categoria: {
+          $regex: reqbody,
+          $options: "i"
+        }
+      })
+      .sort({
+        _id: -1
+      })
+      .toArray(function (err, data) {
+        categorias = coleccion.distinct("categoria" , { "categoria" : { $nin : ["", null] } }, function (err, categoria) {
+          console.log(categoria);
+          res.render("buscador", {
+            title: "Encuentra tu próximo libro",
+            signin: true,
+            usuario: req.session.userId,
+            libros: data,
+            categorias: categoria
+          });
+        });
+      });
+  });
+});
+
 
 //Api que recoje datos del formulario que ingresa libros
 
