@@ -1,0 +1,20 @@
+{"_id":{"$oid":"5cf32f329eb6440487865f52"},"name":"peka","titulo":"Haroldo Conti, alias Mascaró, alias la vida","autores":"Eduardo Romano","editorial":"Ediciones Colihue SRL"}
+{"_id":{"$oid":"5cf3318a9eb6440487865f53"},"name":"admin","titulo":"El gato con botas","autores":"Charles Perrault","editorial":"Nordica"}
+{"_id":{"$oid":"5cf331a69eb6440487865f54"},"name":"peka","titulo":"My Mother Called Me Unni","autores":"Dr. Venugopal K. Menon","editorial":"Outskirts Press"}
+{"_id":{"$oid":"5cf332279eb6440487865f56"},"name":"chechi","titulo":"Con este sí, con este no","autores":"Ruth Mehl","editorial":"Ediciones Colihue SRL"}
+{"_id":{"$oid":"5cf3322b9eb6440487865f57"},"name":"chechi","titulo":"Hay que enseñarle a tejer al gato","autores":"Ema Wolf","editorial":null}
+{"_id":{"$oid":"5cf47177bc61c803f1140a8b"},"name":"peka","titulo":"El Palacio de Antonio de Mendoza en Guadalajara","autores":"Antonio Herrera Casado, Antonio Ortiz García","editorial":"AACHE Ediciones de Guadalajara"}
+{"_id":{"$oid":"5cf718400230f50257821f66"},"name":"peka","titulo":"La investigación científica","autores":"Mario Bunge","editorial":"Siglo XXI"}
+{"_id":{"$oid":"5cf718b80230f50257821f67"},"name":"peka","titulo":"La investigación científica","autores":"Mario Bunge","editorial":"Siglo XXI"}
+{"_id":{"$oid":"5d3d09179396e201f4aea7e1"},"name":"admin","titulo":"2666","autores":"Roberto Bolaño","editorial":"ALFAGUARA"}
+{"_id":{"$oid":"5d5adad5b45ce302c032984d"},"name":"admin","titulo":"Filosofía de la psicología","autores":"Mario Bunge, Rubén Ardila","editorial":"Siglo XXI","categoria":["Philosophy"]}
+{"_id":{"$oid":"5d5af50bb45ce302c032984e"},"name":"admin","titulo":"Sammlung einiger die Stadt Elrich in der Grafschaft Hohnstein betreffenden Nachrichten","autores":"\u003cNO INFORMADO\u003e","editorial":null,"categoria":null}
+{"_id":{"$oid":"5d648de679d19a07f7e9ed64"},"name":"admin","titulo":"Para Roberto Bolaño","autores":"Jorge Herralde","editorial":"Villegas Asociados","categoria":["Biography \u0026 Autobiography"]}
+{"_id":{"$oid":"5d69ea1d811a2f042c0c5c36"},"name":"admin","titulo":"Historia de la sexualidad. Vol. 1: La voluntad de saber","autores":"Michel Foucault","editorial":"Siglo XXI","categoria":["Philosophy"]}
+{"_id":{"$oid":"5dac9f32d83beb034ba4d38c"},"name":"admin","titulo":"Viaje al fin de la noche de Louis-Ferdinand Céline (Guía de lectura)","autores":"David Noiret","editorial":"ResumenExpress.com","categoria":["Education"]}
+{"_id":{"$oid":"5dacdd190c81b906b9f5b391"},"name":"admin","titulo":"Bernhard","autores":"David Consuegra","editorial":"Univ. Nacional de Colombia","categoria":"Graphic design (Typography)"}
+{"_id":{"$oid":"5dacdd240c81b906b9f5b392"},"name":"admin","titulo":"Experiencia, lenguaje y comunicación en Thomas Bernhard","autores":"\u003cNO INFORMADO\u003e","editorial":"Prometeo Libros Editorial","categoria":"Sin Categoria"}
+{"_id":{"$oid":"5dacdd440c81b906b9f5b393"},"name":"admin","titulo":"De la investigación audiovisual","autores":"Manuel Delgado Ruiz, Rose Kohn Goldsen, Carmelo Pinto","editorial":"Anthropos Editorial","categoria":"Social Science"}
+{"_id":{"$oid":"5dacdd460c81b906b9f5b394"},"name":"admin","titulo":"El cine español bajo el régimen de Franco, 1936-1975","autores":"José María Caparrós Lera","editorial":"Edicions Universitat Barcelona","categoria":"Motion pictures"}
+{"_id":{"$oid":"5dacdd490c81b906b9f5b395"},"name":"admin","titulo":"Cine, nación y nacionalidades en España","autores":"Nancy Berthier, Jean-Claude Seguin","editorial":"Casa de Velázquez","categoria":"Performing Arts"}
+{"_id":{"$oid":"5dacdd4d0c81b906b9f5b396"},"name":"admin","titulo":"Teoría y crítica del cine","autores":"Antoine de Baecque","editorial":"Grupo Planeta (GBS)","categoria":"Art"}
