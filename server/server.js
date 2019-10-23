@@ -5,11 +5,25 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const login = require("./login");
 const expressSession = require("express-session");
-
+const multer = require('multer');
+const fs = require('fs-extra')
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
 const url = "mongodb://localhost:27017";
+
+
+ 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/public/uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage }).any();
 
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
@@ -22,6 +36,7 @@ client.connect(function(err, client) {
   // Luego de usar la conexión podemos cerrarla
   client.close();
 });
+
 
 //Configuración de vistas con Handlebars
 
@@ -54,6 +69,7 @@ app.engine(
     layoutsDir: path.join(__dirname, "../views/layout")
   })
 );
+
 
 //seteo de las vistas
 
@@ -268,11 +284,17 @@ app.post("/postfeedback", function(req, res) {
 
 //Api que registra usuarios
 
+
 app.post("/regform", function(req, res) {
+
+  var img = fs.readFileSync(req.file.path);
+  var encode_image = img.toString('base64');
   const reqBodys = {
     name: req.body.name,
     password: req.body.password,
-    mail: req.body.email
+    mail: req.body.email,
+    contentType: req.file.mimetype,
+    image:  new Buffer(encode_image, 'base64')
   };
 
   console.log(reqBodys);
@@ -290,6 +312,7 @@ app.post("/regform", function(req, res) {
 
   console.log(reqBodys);
 });
+
 
 //Ruta a agregar
 app.get("/agregar", (req, res) => {
