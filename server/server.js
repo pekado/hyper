@@ -15,15 +15,17 @@ const url = "mongodb://localhost:27017";
 
  
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/public/uploads')
+  destination:function(req,file,cb){
+  cb(null,'public/uploads/')
   },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+  filename:function(req,file,cb){
+    cb(null, Date.now() + '.jpg');
   }
-})
+  });
 
-var upload = multer({ storage: storage }).any();
+  var upload = multer({
+    storage: multer.memoryStorage()
+})
 
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
@@ -258,7 +260,7 @@ app.post("/onlyonecategory", (req, res) => {
 
 //Api que recoje datos del formulario que ingresa libros
 
-app.post("/postfeedback", function(req, res) {
+app.post("/postfeedback",  function(req, res) {
   const reqBodys = {
     name: req.session.userId,
     titulo: req.body.titulo,
@@ -282,11 +284,21 @@ app.post("/postfeedback", function(req, res) {
   console.log(reqBodys);
 });
 
+
+app.post('/pruebaform', function(req, res) {
+  console.log(req.files)
+	var upload = multer({
+		storage: storage
+	}).array('image', 4)
+	upload(req, res, function(err) {
+		res.end('File is uploaded')
+	})
+})
 //Api que registra usuarios
 
 
-app.post("/regform", function(req, res) {
-
+app.post("/regform", upload.array("image", 1), function(req, res) {
+  console.log(req.file)
   var img = fs.readFileSync(req.file.path);
   var encode_image = img.toString('base64');
   const reqBodys = {
@@ -387,5 +399,6 @@ app.get("/biblioteca", (req, res) => {
 
 //Servidor en puerto
 app.listen(3001, () => {
+
   console.log("estamos vivos en el 3001");
 });
