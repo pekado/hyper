@@ -15,8 +15,11 @@
             </form>    
           
     </div> 
-
-
+    <div>
+    {{#each foto}}
+        <img src="{{this.path}}">
+    {{/each}}    
+    </div>
 
 <div id="localbooks" class="biblio">
     {{#each libros}}

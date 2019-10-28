@@ -12,26 +12,11 @@ const MongoClient = mongodb.MongoClient;
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
 const url = "mongodb://localhost:27017";
 
-
- 
-var storage = multer.diskStorage({
-  destination:function(req,file,cb){
-  cb(null,'public/uploads/')
-  },
-  filename:function(req,file,cb){
-    cb(null, Date.now() + '.jpg');
-  }
-  });
-
-  var upload = multer({
-    storage: multer.memoryStorage()
-})
-
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
 
 // Utilizamos el método connect para conectarnos a MongoDB
-client.connect(function(err, client) {
+client.connect(function (err, client) {
   // Acá va todo el código para interactuar con MongoDB
   console.log("Conectados a MongoDB");
 
@@ -39,7 +24,16 @@ client.connect(function(err, client) {
   client.close();
 });
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads')
+  },
+  filename: function (req, file, cb) {
+      cb(null, req.body.name + file.originalname);        
+  }
+})
 
+var upload = multer({ storage: storage })
 //Configuración de vistas con Handlebars
 
 //Ruta para que use los archivos estaticos de /Public y body parser
@@ -109,12 +103,12 @@ app.post("/login", (req, res) => {
     login.validarUsuario(
       req.body.user,
       req.body.password,
-      function() {
+      function () {
         // Callback para invocar si validó bien. Guarda la sesión e indica navegar al home.
         req.session.userId = req.body.user;
         res.redirect("/biblioteca");
       },
-      function() {
+      function () {
         // Si validó mal, se destruye la sesión (por si la hubiera) y redirige a página inicial
         req.session.destroy();
         res.redirect("/login");
@@ -131,15 +125,22 @@ app.post("/findlocalbooks", (req, res) => {
     title: req.body.title
   };
   console.log(reqbody);
-  client.connect(function(error, client) {
+  client.connect(function (error, client) {
     // ingreso la database que usare
     const db = client.db("hyper");
     // ingreso la coleccion que usare
     const coleccion = db.collection("libros");
     arrayDeLibros = coleccion
-      .find({ titulo: { $regex: req.body.title, $options: "i" } })
-      .sort({ _id: -1 })
-      .toArray(function(err, data) {
+      .find({
+        titulo: {
+          $regex: req.body.title,
+          $options: "i"
+        }
+      })
+      .sort({
+        _id: -1
+      })
+      .toArray(function (err, data) {
         JSON.stringify(data);
         console.log(data);
         res.render("buscador", {
@@ -168,17 +169,31 @@ app.get("/registrar", (req, res) => {
   });
 });
 
-
-//intento de asyn await
-//app.get("/buscador", async (req, res) => {
-  //try {
-    //await client.connect();
-    //const libros = await coleccion.find().sort({ _id: -1}).toArray()
-   // const categorias = await coleccion.distinct("categoria")
-  //} catch (error) {
-    
-  //}
-//})
+//ruta al perfil
+app.get("/profile", (req, res) => {
+  // Si no hay sesión, devuelvo un 403 ("no autorizado")
+  if (req.session.userId == undefined) {
+    res.status(403).redirect("/login");
+  } else {
+    // El Return es para que no siga con el resto de la función.
+    // conecto al cliente
+    client.connect(function (error, client) {
+      // ingreso la database que usare
+      const db = client.db("hyper");
+      // ingreso la coleccion que usare
+      const coleccion = db.collection("users");
+      usuario = coleccion.find({name: req.session.userId}).toArray(function (err, perfil){
+        console.log(perfil)
+        res.render("profile", {
+          title: "Este es tu perfil",
+          signin: true,
+          usuario: req.session.userId,
+          perfil: perfil
+        });
+      });
+    });
+  }  
+});
 
 //ruta a buscador de libros en la db
 app.get("/buscador", (req, res) => {
@@ -203,19 +218,21 @@ app.get("/buscador", (req, res) => {
           if (data == undefined) {
             res.send(err)
           } else {
-            
+            categorias = coleccion.distinct("categoria", {
+              "categoria": {
+                $nin: ["", null]
+              }
+            }, function (err, categoria) {
 
-              categorias = coleccion.distinct("categoria" , { "categoria" : { $nin : ["", null] } }, function (err, categoria) {
-                console.log(categoria);
-                res.render("buscador", {
-                  title: "Encuentra tu próximo libro",
-                  signin: true,
-                  usuario: req.session.userId,
-                  libros: data,
-                  categorias: categoria
-                });
+              res.render("buscador", {
+                title: "Encuentra tu próximo libro",
+                signin: true,
+                usuario: req.session.userId,
+                libros: data,
+                categorias: categoria
               });
-            
+
+            });
           }
         })
     });
@@ -243,7 +260,11 @@ app.post("/onlyonecategory", (req, res) => {
         _id: -1
       })
       .toArray(function (err, data) {
-        categorias = coleccion.distinct("categoria" , { "categoria" : { $nin : ["", null] } }, function (err, categoria) {
+        categorias = coleccion.distinct("categoria", {
+          "categoria": {
+            $nin: ["", null]
+          }
+        }, function (err, categoria) {
           console.log(categoria);
           res.render("buscador", {
             title: "Encuentra tu próximo libro",
@@ -260,7 +281,7 @@ app.post("/onlyonecategory", (req, res) => {
 
 //Api que recoje datos del formulario que ingresa libros
 
-app.post("/postfeedback",  function(req, res) {
+app.post("/postfeedback", function (req, res) {
   const reqBodys = {
     name: req.session.userId,
     titulo: req.body.titulo,
@@ -270,7 +291,7 @@ app.post("/postfeedback",  function(req, res) {
   };
 
   // conecto al cliente
-  client.connect(function(error, client) {
+  client.connect(function (error, client) {
     // ingreso la database que usare
     const db = client.db("hyper");
     // ingreso la coleccion que usare
@@ -285,45 +306,53 @@ app.post("/postfeedback",  function(req, res) {
 });
 
 
-app.post('/pruebaform', function(req, res) {
-  console.log(req.files)
-	var upload = multer({
-		storage: storage
-	}).array('image', 4)
-	upload(req, res, function(err) {
-		res.end('File is uploaded')
-	})
-})
+
 //Api que registra usuarios
 
 
-app.post("/regform", upload.array("image", 1), function(req, res) {
-  console.log(req.file)
-  var img = fs.readFileSync(req.file.path);
-  var encode_image = img.toString('base64');
+app.post("/regform", upload.single("image"), function (req, res) {
+  console.log(req.body)
+ 
+
+  
   const reqBodys = {
     name: req.body.name,
     password: req.body.password,
     mail: req.body.email,
-    contentType: req.file.mimetype,
-    image:  new Buffer(encode_image, 'base64')
+    image: req.file.filename
   };
 
   console.log(reqBodys);
   // conecto al cliente
-  client.connect(function(error, client) {
+  client.connect(function (error, client) {
     // ingreso la database que usare
     const db = client.db("hyper");
     // ingreso la coleccion que usare
     const coleccion = db.collection("users");
-    coleccion.insertOne(reqBodys, (err, result) => {
-      // redirect al login para logearse
-      res.redirect("/login");
+   
+      
+      const nombrevalidar = req.body.name;
+  
+      // filtro si encuentro algun usuario con el mismo nombre me traigo ese array
+      coleccion.find({ usuario: nombrevalidar }).toArray(function(err, datavalidacion) {
+        // si encuentro un usuario con el mismo nombre mando un console.log si no inserto los nuevos datos del usuario en else
+        if (datavalidacion.length == 1) {
+         let errorvalidacion = `Error nombre de usuario utilizado:  ${req.body.usuario}`;
+          res.render("registrar", {
+            error: errorvalidacion
+          });
+        } else {
+        // obtengo la coleccion con "insertOne" inserto a MongoDB
+          coleccion.insertOne(reqBodys, (err, result) => {
+          // redirect al login para logearse
+            res.redirect("/login");
+          });
+        }
+      })
     });
-  });
+  })
 
-  console.log(reqBodys);
-});
+
 
 
 //Ruta a agregar
@@ -354,7 +383,7 @@ app.post("/agregarlibro", (req, res) => {
   };
 
   // conecto al cliente
-  client.connect(function(error, client) {
+  client.connect(function (error, client) {
     // ingreso la database que usare
     const db = client.db("hyper");
     // ingreso la coleccion que usare
@@ -372,7 +401,7 @@ app.get("/biblioteca", (req, res) => {
     res.status(403).redirect("/login");
   } else {
     // conecto al cliente
-    client.connect(function(error, client) {
+    client.connect(function (error, client) {
       // ingreso la database que usare
       const db = client.db("hyper");
       // ingreso la coleccion que usare
@@ -384,7 +413,7 @@ app.get("/biblioteca", (req, res) => {
         .sort({
           _id: -1
         })
-        .toArray(function(err, data) {
+        .toArray(function (err, data) {
           console.log(data);
           res.render("biblioteca", {
             title: "Tu Biblioteca",
