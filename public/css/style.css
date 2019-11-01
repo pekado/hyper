@@ -272,3 +272,8 @@ body::after {
 .margin{
   margin-top: 1vw;
 }
+
+.img{
+width: 5vw;
+height: auto;
+}
