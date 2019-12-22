@@ -262,8 +262,7 @@ body::after {
 
 .cadalibro {
   border: 3px solid white;
-  margin-top: 5vw;
-  margin-bottom: 5vw;
+  margin: 3vw;
   text-align: left;
   background-color:rgba(0, 0, 0, 0.3)
   
@@ -273,7 +272,8 @@ body::after {
   margin-top: 1vw;
 }
 
-.img{
-width: 5vw;
+.profpic{
+width: 20vw;
 height: auto;
+border: 3px solid white;
 }

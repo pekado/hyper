@@ -2,10 +2,28 @@
 {{#each perfil}}
 <div class="container flex">
     <ul>
+        <li><img class="profpic hoverable" src="/uploads/{{this.image}}"></li>
         <li>{{this.name}}</li>
         <li>{{this.mail}}</li>
-        <li><img class="img" src="/uploads/{{this.image}}"></li>
-         
     </ul>
 </div>
 {{/each}}
+
+<div class="container ">
+    {{#each requests}}
+    <div>
+        
+        <span>{{this.req}}, le interes el libro {{this.book}}</span>
+        <button class="waves-effect waves-light btn pink darken-1">Aceptar</button>
+        <button class="waves-effect waves-light btn pink darken-1">Rechazar</button>
+        
+    </div>
+    {{/each}}
+</div>
+
+<div class="container ">
+    <div>
+        <span></span>
+    </div>
+</div>
+

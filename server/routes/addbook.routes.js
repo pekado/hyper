@@ -36,7 +36,8 @@ router.get("/agregar", (req, res) => {
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
       coleccion.insertOne(book, (err, result) => {
-        // redirect al login para logearse
+       
+        res.redirect("/agregar");
       });
     });
   });
@@ -57,7 +58,7 @@ router.get("/agregar", (req, res) => {
       // ingreso la coleccion que usare
       const coleccion = db.collection("libros");
       coleccion.insertOne(reqBodys, (err, result) => {
-        // redirect al login para logearse
+        
         res.redirect("/agregar");
       });
     });

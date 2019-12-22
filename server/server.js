@@ -81,6 +81,8 @@ app.use('/', require('./routes/profile.routes'));
 
 app.use('/', require('./routes/search.routes'));
 
+app.use('/', require('./routes/bookrequest.routes'))
+
 
 //Servidor en puerto
 app.listen(3001, () => {

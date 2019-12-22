@@ -17,7 +17,7 @@ router.get("/buscador", (req, res) => {
         const coleccion = db.collection("libros");
         //busca el campo categoría 
         arrayDeLibros = coleccion
-          .find()
+          .find( { "name" : { $ne: req.session.userId}})
           .sort({
             _id: -1
           })
