@@ -33,7 +33,7 @@
             <li>Categoria: {{this.categoria}}</li>
 
         </ul>
-        <form action="/bookrequest" method="POST" >
+        <form action="/bookrequest" method="POST" onsubmit="return confirm ('¿Estás seguro que quieres solicitar este {{this.titulo}}?');">
             <input value="{{this.name}}" type="text" name="name" style="display: none">
             <input value="{{this.titulo}}" type="text" name="title" style="display: none">
             <button type="submit" class="waves-effect waves-light btn pink darken-1 margin right" >Solicitar libro</button>

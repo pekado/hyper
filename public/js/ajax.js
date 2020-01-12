@@ -83,3 +83,27 @@ function getByCategory() {
   xhr.open("GET", "http://localhost:3001/onlyonecategory");
   xhr.send("");
 }
+
+function confirmRequest(index) {
+  if (confirm(`¿Estás seguro que quieres solicitar ${arrayResumido[index].titulo}?`)) {
+    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(arrayResumido);
+      }
+
+    }
+    xmlhttp.open("POST", "/bookrequest");
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    
+  };
+}
+
+
+
+function alert() {
+  alert: "Estas por cerrar sesión"
+}
+
+

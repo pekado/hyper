@@ -10,7 +10,7 @@
   
 
   <div>
-    <form action="/postfeedback" method="post">
+    <form action="/postfeedback" method="post" onsubmit="return confirm ('Estas por agregar un nuevo libro');">
       <label>Título:<input type="text" name="titulo"></label>
       <br>
       <label>Autores:<input type="text" name="autores"></label>
@@ -23,11 +23,3 @@
   </div>
 </div>
 
-<script>
-
-function alert() {
-  alert: "Estas por cerrar sesión"
-}
-
-
-</script>

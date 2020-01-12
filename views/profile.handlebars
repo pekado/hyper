@@ -13,8 +13,12 @@
     {{#each requests}}
     <div>
         
-        <span>{{this.req}}, le interes el libro {{this.book}}</span>
+        <span>Tienes una solicitud por parte de {{this.req}}, le interes el libro {{this.book}}</span>
+        <form method="post" action="/acceptrequest" onsubmit="return confirm ('¿Deseas aceptar el intercambio de {{this.book}} con {{this.req}}?');">
+        <input value="{{this.req}}" type="text" name="name" style="display: none">
+        <input value="{{this._id}}" type="text" name="id" style="display: none">
         <button class="waves-effect waves-light btn pink darken-1">Aceptar</button>
+        </form>
         <button class="waves-effect waves-light btn pink darken-1">Rechazar</button>
         
     </div>
