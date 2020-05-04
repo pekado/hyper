@@ -105,7 +105,7 @@ router.post("/onlyonecategory", (req, res) => {
             }
           }, function (err, categoria) {
             console.log(categoria);
-            return res.send(, {
+            return res.send("/buscador", {
               title: "Encuentra tu próximo libro",
               signin: true,
               usuario: req.session.userId,
