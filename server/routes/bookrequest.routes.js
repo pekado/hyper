@@ -75,7 +75,7 @@ router.post("/acceptrequest", (req, res) => {
                   }
                 },
                 function(err, categoria) {
-                  console.log(userMail)
+                  console.log(userMail);
                   res.render("acceptrequest", {
                     title: "Encuentra tu próximo libro",
                     signin: true,
@@ -105,11 +105,13 @@ router.post("/deniedrequest", (req, res) => {
       const db = client.db("hyper");
       // ingreso la coleccion que usare
       const coleccion = db.collection("requests");
-      coleccion.deleteOne({ _id: new mongodb.ObjectId(req.body.id)}, function(err){
-        res.redirect("profile")
-      })
-    })
+      coleccion.deleteOne({ _id: new mongodb.ObjectId(req.body.id) }, function(
+        err
+      ) {
+        res.redirect("profile");
+      });
+    });
   }
-})  
+});
 
 module.exports = router;

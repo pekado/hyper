@@ -1,44 +1,73 @@
- <div class="section">
-    <form action="/findlocalbooks" method="post">
-        <input id="title" type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN">
-        <button type="submit" name="findlocalbooks" class="waves-effect waves-light btn pink darken-1">Buscar</button>
-    </form>
-    <div class="error-message" id="error-message"></div>
+<div class="section">
+  <form action="/findlocalbooks" method="post">
+    <input id="title" type="text" name="title" class="text-input user" placeholder="Titulo, Autor o ISBN" />
+    <button type="submit" name="findlocalbooks" class="waves-effect waves-light btn pink darken-1">
+      Buscar
+    </button>
+  </form>
+  <div class="error-message" id="error-message"></div>
 </div>
-
-
-    <div class="flex center padding">
-        
-            <form action="/onlyonecategory" method="post">
-                {{#each categorias}}
-                    <button type="submit" value={{this}} name="category" class="waves-effect waves-light btn pink darken-1 margin">{{this}}</button>
-                {{/each}}  
-            </form>    
-          
-    </div> 
-    <div>
-    {{#each foto}}
-        <img src="{{this.path}}">
-    {{/each}}    
-    </div>
-
-<div id="localbooks" class="biblio">
-    {{#each libros}}
-    <div class="cadalibro padding hoverable">
-        <ul class="bookfound">
-
-            <li>Título: {{this.titulo}}</li>
-            <li>Autor/es: {{this.autores}}</li>
-            <li>Editorial: {{this.editorial}}</li>
-            <li>Usuario: {{this.name}}</li>
-            <li>Categoria: {{this.categoria}}</li>
-
-        </ul>
-        <form action="/bookrequest" method="POST" onsubmit="return confirm ('¿Estás seguro que quieres solicitar este {{this.titulo}}?');">
-            <input value="{{this.name}}" type="text" name="name" style="display: none">
-            <input value="{{this.titulo}}" type="text" name="title" style="display: none">
-            <button type="submit" class="waves-effect waves-light btn pink darken-1 margin right" >Solicitar libro</button>
-        </form>    
-    </div>
+<div class="flex center padding">
+  <form action="/onlyonecategory" method="post">
+    {{#each categorias}}
+      <button type="submit" value={{this}} name="category" class="waves-effect waves-light btn pink darken-1 margin">
+        {{this}}
+      </button>
     {{/each}}
+  </form>
 </div>
+<div>
+  {{#each foto}}
+    <img src="{{this.path}}" />
+  {{/each}}
+</div>
+<div id="localbooks" class="biblio">
+  {{#each libros}}
+    <div class="cadalibro padding hoverable">
+      <ul class="bookfound">
+        <li>
+          Título:
+          {{this.titulo}}
+        </li>
+        <li>
+          Autor/es:
+          {{this.autores}}
+        </li>
+        <li>
+          Editorial:
+          {{this.editorial}}
+        </li>
+        <li>
+          Usuario:
+          {{this.name}}
+        </li>
+        <li>
+          Categoria:
+          {{this.categoria}}
+        </li>
+      </ul>
+      <form
+        action="/bookrequest"
+        method="POST"
+        onsubmit="return confirm ('¿Estás seguro que quieres solicitar este {{this.titulo}}?');"
+      >
+        <input value="{{this.name}}" type="text" name="name" style="display: none" />
+        <input value="{{this.titulo}}" type="text" name="title" style="display: none" />
+        <button type="submit" class="waves-effect waves-light btn pink darken-1 margin right">
+          Solicitar libro
+        </button>
+      </form>
+    </div>
+  {{/each}}
+</div>
+<script>
+  function getCategory() {
+    fetch('http://localhost:3000/onlyonecategory', {mode: 'no-cors'})
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  });
+}
+</script>
