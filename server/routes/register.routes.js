@@ -24,7 +24,7 @@ router.get("/registrar", (req, res) => {
 });
 
 router.post("/regform", upload.single("image"), function(req, res) {
-  console.log(req.body);
+
 
   const reqBodys = {
     name: req.body.name,
@@ -33,7 +33,7 @@ router.post("/regform", upload.single("image"), function(req, res) {
     image: req.file.filename
   };
 
-  console.log(reqBodys);
+  console.log(client);
   // conecto al cliente
   client.connect(function(error, client) {
     // ingreso la database que usare
