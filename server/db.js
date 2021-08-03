@@ -12,7 +12,7 @@ client.connect(function (err, client) {
   console.log("Conectados a MongoDB");
 
   // Luego de usar la conexión podemos cerrarla
-/*   client.close(); */
+  client.close();
 });
 
 module.exports = {client, mongodb}
