@@ -1,19 +1,9 @@
-const mongodb = require("mongodb");
-const MongoClient = mongodb.MongoClient;
-// Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
-const url = process.env.MONGODB_URI;
-
-// Creamos una nueva instancia de MongoClient
-const client = new MongoClient(url);
-
-// Utilizamos el método connect para conectarnos a MongoDB
-client.connect(function (err, client) {
-  // Acá va todo el código para interactuar con MongoDB
-  console.log("Conectados a MongoDB");
-  console.log(`${client}`);
-
-  // Luego de usar la conexión podemos cerrarla
+const { MongoClient } = require('mongodb');
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const collection = client.db("hyper").collection("users");
+  console.log(client)
+  // perform actions on the collection object
   client.close();
 });
-
-module.exports = {client, mongodb}
