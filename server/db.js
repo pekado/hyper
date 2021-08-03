@@ -9,7 +9,7 @@ const client = new MongoClient(url);
 // Utilizamos el método connect para conectarnos a MongoDB
 client.connect(function (err, client) {
   // Acá va todo el código para interactuar con MongoDB
-  console.log("Conectados a MongoDB");
+  console.log("Conectados a MongoDB",url);
 
   // Luego de usar la conexión podemos cerrarla
   client.close();
