@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 // Configuramos la url dónde está corriendo MongoDB, base de datos y nombre de la colección
-const url = "mongodb://localhost:27017";
+const url = process.env.MONGODB_URI;
 
 // Creamos una nueva instancia de MongoClient
 const client = new MongoClient(url);
