@@ -4,7 +4,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(error => {
   // perform actions on the collection object
   if (error) return console.error(error);
-  var database = client.db("mydatabase");
   client.close();
 });
 
