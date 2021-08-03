@@ -1,0 +1,62 @@
+{{#each perfil}}
+<div class="container flex">
+    <ul>
+        <li><img class="profpic hoverable" src="/uploads/{{this.image}}"></li>
+        <li>{{this.name}}</li>
+        <li>{{this.mail}}</li>
+    </ul>
+</div>
+{{/each}}
+{{#if requests}}
+<div class="container ">
+
+    <div>
+        <ul class="collapsible expadable">
+            <li>
+                <h1 class="collapsible-header cyan">Solicitudes</h1>
+                {{#each requests}}
+                <div class="collapsible-body cyan"><span>Tienes una solicitud por parte de {{this.req}}, le interes el libro
+                        {{this.book}}</span>
+                    <form method="post" action="/acceptrequest"
+                        onsubmit="return confirm ('¿Deseas aceptar el intercambio de {{this.book}} con {{this.req}}?');">
+                        <input value="{{this.req}}" type="text" name="name" style="display: none">
+                        <input value="{{this._id}}" type="text" name="id" style="display: none">
+                        <button class="waves-effect waves-light btn pink darken-1">Aceptar</button>
+                    </form>
+                        <form method="POST" action="/deniedrequest"
+                            onsubmit="return confirm ('Estás por rechazar una oportunidad de intercambiar con {{this.req}}. ¿Seguro?');">
+                            <input value="{{this._id}}" type="text" name="id" style="display: none">
+                            <button type="submit" class="waves-effect waves-light btn pink darken-1">Rechazar</button>
+                        </form>
+
+                </div>
+                {{/each}}
+            </li>
+
+        </ul>
+
+    </div>
+
+    {{else}}
+    <h4>No tienes nuevas solicitudes</h4>
+
+    {{/if}}
+</div>
+
+<div class="container ">
+    <div>
+        <span></span>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, {
+            inDuration: 1000,
+            accordion: true,
+            outDuration: 1000
+        });
+    });
+
+</script>

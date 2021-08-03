@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/materialize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/materialize.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="js/index.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Cinzel|Darker+Grotesque|Didact+Gothic&display=swap"
+    rel="stylesheet">
+  <title>{{title}}</title>
+</head>
+
+<body class="entrance">
+  <!-- Dropdown Structure -->
+<header>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/"><img class="logo" src="images/logo2.png"></a>
+      <ul class="right">
+        {{#if signout}}
+        <li><a href="/login">Ingresar</a></li>
+        <li><a href="/registrar">Registrate</a></li>
+        {{/if}}
+        {{#if signin}}
+        <li><img src="{{usuario.image}}"></li>
+        <li>Hola {{usuario}}!</li>
+        <li><a href="/buscador">Explorar</a></li>
+        <li><a href="/biblioteca">Mi Biblioteca</a></li>
+        <li><a href="/profile">Perfil</a></li>
+        <li><a onclick="alert()" href="/logout">Salir</a></li>
+  
+          {{/if}}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+  <main>
+  {{{body}}}
+  </main>
+  <footer class="page-footer toof">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <a href="/"><img style="width: 12vw; height: auto;" class="logo" src="{{foto}}"></a>
+          <h5 class="white-text">Hyper</h5>
+          <p class="grey-text text-lighten-4">El hipervínculo en tu biblioteca.</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text"></h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+            <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+            <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+            <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+
+        <a class="grey-text text-lighten-4 right" href="http://www.litica.xyz">Apoyados por Lítica</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="js/ajax.js"></script>
+</body>
+
+</html>

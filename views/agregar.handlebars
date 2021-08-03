@@ -1,0 +1,39 @@
+<h4 class="padding">
+  Agrega un libro a tu biblioteca
+  <br />
+  con nuestro buscador.
+</h4>
+<div class="section">
+  <input id="titleId" type="text" placeholder="Título, autor o ISBN" />
+  <button class="waves-effect waves-light btn pink darken-1" onclick="getBooks()">
+    Buscar
+  </button>
+</div>
+<div class="biblio padding" id="titleList"></div>
+<h4 class="padding">
+  ¿No lo encuentras? Añádelo manualmente!
+</h4>
+<div class="section">
+  <div>
+    <form action="/postfeedback" method="post" onsubmit="return confirm ('Estas por agregar un nuevo libro');">
+      <label>
+        Título:
+        <input type="text" name="titulo" />
+      </label>
+      <br />
+      <label>
+        Autores:
+        <input type="text" name="autores" />
+      </label>
+      <br />
+      <label>
+        Editorial:
+        <input type="text" name="editorial" />
+      </label>
+      <br />
+      <button class="waves-effect waves-light btn pink darken-1" type="submit">
+        agregar
+      </button>
+    </form>
+  </div>
+</div>
