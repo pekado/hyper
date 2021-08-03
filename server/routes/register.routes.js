@@ -33,7 +33,6 @@ router.post("/regform", upload.single("image"), function(req, res) {
     image: req.file.filename
   };
 
-  console.log(client);
   // conecto al cliente
   client.connect(function(error, client) {
     // ingreso la database que usare
