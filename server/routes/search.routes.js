@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router();
-const   = "mongodb://localhost:27017"
 const {client, mongodb} = require('../db')
 
 router.get("/buscador", (req, res) => {
