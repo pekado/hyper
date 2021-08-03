@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dbURL = "mongodb://localhost:27017";
-const { client, mongodb } = require("../db");
+const { client } = require("../db");
 const multer = require("multer");
 
 var storage = multer.diskStorage({
