@@ -5,7 +5,7 @@ client.connect(error => {
   // perform actions on the collection object
   if (error) return console.error(error);
   var database = client.db("mydatabase");
-  console.log(database);
+  console.log(uri);
   client.close();
 });
 
